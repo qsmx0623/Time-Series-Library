@@ -50,7 +50,7 @@ do
       --c_out $enc_in \
       --e_layers 2 \
       --d_layers 1 \
-      --factor 1 \
+      --factor 3 \
       --train_epochs $train_epochs \
       --patience $patience \
       --batch_size $batch_size \

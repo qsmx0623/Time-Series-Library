@@ -1,5 +1,15 @@
 # export CUDA_VISIBLE_DEVICES=1
+if [ ! -d "./log" ]; then
+    mkdir ./log
+fi
 
+if [ ! -d "./log/TiDE" ]; then
+    mkdir ./log/TiDE
+fi
+
+if [ ! -d "./log/TiDE/weather" ]; then
+    mkdir ./log/TiDE/weather
+fi
 model_name=TiDE
 train_epochs=10
 patience=5
@@ -12,7 +22,7 @@ dec_in=21
 c_out=21
 batch_size=64
 learning_rate=0.005
-gpu_id=0
+gpu_id=1
 
 # 循环不同的预测长度（pred_len）
 for pred_len in 96 192 336 720 960 1024 1240 1688
@@ -26,7 +36,7 @@ do
       --model_id weather_$seq_len'_'$pred_len \
       --model $model_name \
       --data $data_name \
-      --freq t \
+      --freq w \
       --features M \
       --gpu $gpu_id \
       --seq_len $seq_len \
@@ -42,7 +52,7 @@ do
       --dropout 0.3 \
       --train_epochs $train_epochs \
       --patience $patience \
-      --itr 1 \
       --batch_size $batch_size \
-      --learning_rate $learning_rate
+      --learning_rate $learning_rate \
+      --itr 1 | tee -a ./log/TiDE/weather/$seq_len.txt
 done

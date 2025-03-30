@@ -23,19 +23,20 @@ if __name__ == '__main__':
     parser.add_argument('--task_name', type=str, required=True, default='long_term_forecast',
                         help='task name, options:[long_term_forecast, short_term_forecast, imputation, classification, anomaly_detection]')
     parser.add_argument('--is_training', type=int, required=True, default=1, help='status')
+    parser.add_argument('--with_curve', type=int, default=1, help='status')
     parser.add_argument('--model_id', type=str, required=True, default='test', help='model id')
     parser.add_argument('--model', type=str, required=True, default='Autoformer',
                         help='model name, options: [Autoformer, Transformer, TimesNet]')
 
     # data loader
-    parser.add_argument('--data', type=str, required=True, default='ETTh1', help='dataset type')
+    parser.add_argument('--data', type=str, required=True, default='ETTm1', help='dataset type')
     parser.add_argument('--root_path', type=str, default='./data/ETT/', help='root path of the data file')
     parser.add_argument('--data_path', type=str, default='ETTh1.csv', help='data file')
     parser.add_argument('--features', type=str, default='M',
-                        help='forecasting task, options:[M, S, MS]; M:multivariate predict multivariate, S:univariate predict univariate, MS:multivariate predict univariate')
+                        help='forecasting task, options:[M, S, MS]; M:multichannel predict multichannel, S:unichannel predict unichannel, MS:multichannel predict unichannel')
     parser.add_argument('--target', type=str, default='OT', help='target feature in S or MS task')
     parser.add_argument('--freq', type=str, default='h',
-                        help='freq for time features encoding, options:[s:secondly, t:minutely, h:hourly, d:daily, b:business days, w:weekly, m:monthly], you can also use more detailed freq like 15min or 3h')
+                        help='freq for time features encoding, options:[s:secondly, t:minutely, h1:hourly, h2:hourly, d:daily, b:business days, w:weekly, m:monthly], you can also use more detailed freq like 15min or 3h')
     parser.add_argument('--checkpoints', type=str, default='./checkpoints/', help='location of model checkpoints')
 
     # forecasting task
@@ -73,6 +74,7 @@ if __name__ == '__main__':
     parser.add_argument('--embed', type=str, default='timeF',
                         help='time features encoding, options:[timeF, fixed, learned]')
     parser.add_argument('--activation', type=str, default='gelu', help='activation')
+    parser.add_argument('--output_attention', action='store_true', help='whether to output attention in ecoder')
     parser.add_argument('--channel_independence', type=int, default=1,
                         help='0: channel dependence 1: channel independence for FreTS model')
     parser.add_argument('--decomp_method', type=str, default='moving_avg',
@@ -140,6 +142,50 @@ if __name__ == '__main__':
     # TimeXer
     parser.add_argument('--patch_len', type=int, default=16, help='patch length')
 
+    #ModernTCN
+    parser.add_argument('--stem_ratio', type=int, default=6, help='stem ratio')
+    parser.add_argument('--downsample_ratio', type=int, default=2, help='downsample_ratio')
+    parser.add_argument('--ffn_ratio', type=int, default=2, help='ffn_ratio')
+    parser.add_argument('--patch_size', type=int, default=16, help='the patch size')
+    parser.add_argument('--patch_stride', type=int, default=8, help='the patch stride')
+
+    parser.add_argument('--num_blocks', nargs='+',type=int, default=[1,1,1,1], help='num_blocks in each stage')
+    parser.add_argument('--large_size', nargs='+',type=int, default=[31,29,27,13], help='big kernel size')
+    parser.add_argument('--small_size', nargs='+',type=int, default=[5,5,5,5], help='small kernel size for structral reparam')
+    parser.add_argument('--dims', nargs='+',type=int, default=[256,256,256,256], help='dmodels in each stage')
+    parser.add_argument('--dw_dims', nargs='+',type=int, default=[256,256,256,256])
+
+    parser.add_argument('--small_kernel_merged', type=bool, default=False, help='small_kernel has already merged or not')
+    parser.add_argument('--call_structural_reparam', type=bool, default=False, help='structural_reparam after training')
+    parser.add_argument('--use_multi_scale', type=bool, default=False, help='use_multi_scale fusion')
+    parser.add_argument('--revin', type=int, default=1, help='RevIN; True 1 False 0')
+    parser.add_argument('--affine', type=int, default=0, help='RevIN-affine; True 1 False 0')
+    parser.add_argument('--subtract_last', type=int, default=0, help='0: subtract mean; 1: subtract last')
+    parser.add_argument('--decomposition', type=int, default=0, help='decomposition; True 1 False 0')
+    parser.add_argument('--kernel_size', type=int, default=25, help='decomposition-kernel')
+
+    # FITS
+    parser.add_argument('--train_mode', type=int,default=0)
+    parser.add_argument('--cut_freq', type=int,default=0)
+    parser.add_argument('--base_T', type=int,default=24)
+    parser.add_argument('--H_order', type=int,default=2)
+
+    # GLAFF
+    parser.add_argument('--dim', type=int, default=512, help='dimension of hidden state')
+    parser.add_argument('--dff', type=int, default=2048, help='dimension of feed forward')
+    parser.add_argument('--head_num', type=int, default=8, help='number of heads')
+    parser.add_argument('--layer_num', type=int, default=2, help='number of layers')
+    parser.add_argument('--glaff_dropout', type=float, default=0.1, help='dropout rate')
+    parser.add_argument('--q', type=float, default=0.75, help='quantile')
+
+    # TimeLinear
+    parser.add_argument('--rda', type=int, default=4)
+    parser.add_argument('--rdb', type=int, default=1)
+    parser.add_argument('--ksize', type=int, default=5)
+    parser.add_argument('--beta', type=float, default=0.4)
+    parser.add_argument('--time_feature_types', type=str, nargs='+',
+                        default=['HourOfDay','DayOfWeek'], help='features for time feature embedding')
+    
     args = parser.parse_args()
     if torch.cuda.is_available() and args.use_gpu:
         args.device = torch.device('cuda:{}'.format(args.gpu))

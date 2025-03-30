@@ -1,4 +1,16 @@
 # 设置基本参数
+
+if [ ! -d "./log" ]; then
+    mkdir ./log
+fi
+
+if [ ! -d "./log/Crossformer" ]; then
+    mkdir ./log/Crossformer
+fi
+
+if [ ! -d "./log/Crossformer/weather" ]; then
+    mkdir ./log/Crossformer/weather
+fi
 model_name='Crossformer'
 train_epochs=10
 patience=5
@@ -9,12 +21,12 @@ seq_len=336
 enc_in=21
 dec_in=21
 c_out=21
-batch_size=32
+batch_size=16
 learning_rate=0.005
-gpu_id=3
+gpu_id=7
 
 # 循环不同的预测长度（pred_len）
-for pred_len in 96 192 336 720 960 1024 1240 1688
+for pred_len in 1688
 do
     # 训练模型
     python -u run.py \
@@ -25,7 +37,7 @@ do
       --model_id weather_$seq_len'_'$pred_len \
       --model $model_name \
       --data $data_name \
-      --freq t \
+      --freq w \
       --features M \
       --gpu $gpu_id \
       --seq_len $seq_len \
@@ -35,7 +47,7 @@ do
       --c_out $c_out\
       --train_epochs $train_epochs \
       --patience $patience \
-      --itr 1 \
       --batch_size $batch_size \
-      --learning_rate $learning_rate
+      --learning_rate $learning_rate \
+      --itr 1 | tee -a ./log/Crossformer/weather/$seq_len.txt
 done

@@ -30,13 +30,11 @@ class TimeFeature:
     def __repr__(self):
         return self.__class__.__name__ + "()"
 
-
 class SecondOfMinute(TimeFeature):
     """Minute of hour encoded as value between [-0.5, 0.5]"""
 
     def __call__(self, index: pd.DatetimeIndex) -> np.ndarray:
         return index.second / 59.0 - 0.5
-
 
 class MinuteOfHour(TimeFeature):
     """Minute of hour encoded as value between [-0.5, 0.5]"""
@@ -44,19 +42,43 @@ class MinuteOfHour(TimeFeature):
     def __call__(self, index: pd.DatetimeIndex) -> np.ndarray:
         return index.minute / 59.0 - 0.5
 
-
 class HourOfDay(TimeFeature):
     """Hour of day encoded as value between [-0.5, 0.5]"""
 
     def __call__(self, index: pd.DatetimeIndex) -> np.ndarray:
         return index.hour / 23.0 - 0.5
 
-
 class DayOfWeek(TimeFeature):
     """Hour of day encoded as value between [-0.5, 0.5]"""
 
     def __call__(self, index: pd.DatetimeIndex) -> np.ndarray:
         return index.dayofweek / 6.0 - 0.5
+
+class WeekdayAndWeekend(TimeFeature):
+    """Hour of day encoded as value between [-0.5, 0.5]"""
+
+    def __call__(self, index: pd.DatetimeIndex) -> np.ndarray:
+        return (index.dayofweek + 1) // 6.0 - 0.5
+
+class MinuteOfHour_index(TimeFeature):
+    """Minute of hour encoded as value between [-0.5, 0.5]"""
+
+    def __call__(self, index: pd.DatetimeIndex) -> np.ndarray:
+        return index.minute
+
+
+class HourOfDay_index(TimeFeature):
+    """Hour of day encoded as value between [-0.5, 0.5]"""
+
+    def __call__(self, index: pd.DatetimeIndex) -> np.ndarray:
+        return index.hour
+
+
+class DayOfWeek_index(TimeFeature):
+    """Hour of day encoded as value between [-0.5, 0.5]"""
+
+    def __call__(self, index: pd.DatetimeIndex) -> np.ndarray:
+        return index.dayofweek
 
 
 class DayOfMonth(TimeFeature):
@@ -84,8 +106,14 @@ class WeekOfYear(TimeFeature):
     """Week of year encoded as value between [-0.5, 0.5]"""
 
     def __call__(self, index: pd.DatetimeIndex) -> np.ndarray:
-        return (index.isocalendar().week - 1) / 52.0 - 0.5
+        return (pd.Int64Index(index.isocalendar().week.astype('int64')) - 1) / 52.0 - 0.5
 
+class SeasonOfYear(TimeFeature):
+    """Season of year encoded as value between [-0.5, 0.5]"""
+
+    def __call__(self, index: pd.DatetimeIndex) -> np.ndarray:
+        #return (index.month // 3) / 3.0 - 0.5
+        return (((index.month // 3) + 3) % 4) / 3.0 - 0.5
 
 def time_features_from_frequency_str(freq_str: str) -> List[TimeFeature]:
     """
@@ -96,30 +124,157 @@ def time_features_from_frequency_str(freq_str: str) -> List[TimeFeature]:
         Frequency string of the form [multiple][granularity] such as "12H", "5min", "1D" etc.
     """
 
-    features_by_offsets = {
-        offsets.YearEnd: [],
-        offsets.QuarterEnd: [MonthOfYear],
-        offsets.MonthEnd: [MonthOfYear],
-        offsets.Week: [DayOfMonth, WeekOfYear],
-        offsets.Day: [DayOfWeek, DayOfMonth, DayOfYear],
-        offsets.BusinessDay: [DayOfWeek, DayOfMonth, DayOfYear],
-        offsets.Hour: [HourOfDay, DayOfWeek, DayOfMonth, DayOfYear],
-        offsets.Minute: [
-            MinuteOfHour,
-            HourOfDay,
-            DayOfWeek,
-            DayOfMonth,
-            DayOfYear,
-        ],
-        offsets.Second: [
-            SecondOfMinute,
-            MinuteOfHour,
-            HourOfDay,
-            DayOfWeek,
-            DayOfMonth,
-            DayOfYear,
-        ],
-    }
+    if freq_str == 'h2':
+        freq_str = 'h'
+        features_by_offsets = {
+            offsets.YearEnd: [],
+            offsets.QuarterEnd: [MonthOfYear],
+            offsets.MonthEnd: [MonthOfYear],
+            offsets.Week: [DayOfMonth, WeekOfYear],
+            offsets.Day: [DayOfWeek, DayOfMonth, DayOfYear],
+            offsets.BusinessDay: [DayOfWeek, DayOfMonth, DayOfYear],
+            offsets.Hour: [HourOfDay, DayOfWeek, MonthOfYear],
+            #offsets.Hour: [HourOfDay_index, DayOfWeek_index],
+            offsets.Minute: [
+                MinuteOfHour,
+                HourOfDay,
+                DayOfWeek,
+            ],
+            offsets.Second: [
+                SecondOfMinute,
+                MinuteOfHour,
+                HourOfDay,
+                DayOfWeek,
+                DayOfMonth,
+                DayOfYear,
+            ],
+        }
+    elif freq_str == 'h3':
+        freq_str = 'h'
+        features_by_offsets = {
+            offsets.YearEnd: [],
+            offsets.QuarterEnd: [MonthOfYear],
+            offsets.MonthEnd: [MonthOfYear],
+            offsets.Week: [DayOfMonth, WeekOfYear],
+            offsets.Day: [DayOfWeek, DayOfMonth, DayOfYear],
+            offsets.BusinessDay: [DayOfWeek, DayOfMonth, DayOfYear],
+            offsets.Hour: [HourOfDay],
+            #offsets.Hour: [HourOfDay_index, DayOfWeek_index],
+            offsets.Minute: [
+                MinuteOfHour,
+                HourOfDay,
+            ],
+            offsets.Second: [
+                SecondOfMinute,
+                MinuteOfHour,
+                HourOfDay,
+                DayOfWeek,
+                DayOfMonth,
+                DayOfYear,
+            ],
+        }
+    elif freq_str == 'h4':
+        freq_str = 'h'
+        features_by_offsets = {
+            offsets.YearEnd: [],
+            offsets.QuarterEnd: [MonthOfYear],
+            offsets.MonthEnd: [MonthOfYear],
+            offsets.Week: [DayOfMonth, WeekOfYear],
+            offsets.Day: [DayOfWeek, DayOfMonth, DayOfYear],
+            offsets.BusinessDay: [DayOfWeek, DayOfMonth, DayOfYear],
+            offsets.Hour: [HourOfDay, DayOfWeek, SeasonOfYear],
+            #offsets.Hour: [HourOfDay_index, DayOfWeek_index],
+            offsets.Minute: [
+                MinuteOfHour,
+                HourOfDay,
+            ],
+            offsets.Second: [
+                SecondOfMinute,
+                MinuteOfHour,
+                HourOfDay,
+                DayOfWeek,
+                DayOfMonth,
+                DayOfYear,
+            ],
+        }
+    elif freq_str == 't2':
+        freq_str = 't'
+        features_by_offsets = {
+            offsets.YearEnd: [],
+            offsets.QuarterEnd: [MonthOfYear],
+            offsets.MonthEnd: [MonthOfYear],
+            offsets.Week: [DayOfMonth, WeekOfYear],
+            offsets.Day: [DayOfWeek, DayOfMonth, DayOfYear],
+            offsets.BusinessDay: [DayOfWeek, DayOfMonth, DayOfYear],
+            offsets.Hour: [HourOfDay, DayOfWeek, SeasonOfYear],
+            #offsets.Hour: [HourOfDay_index, DayOfWeek_index],
+            offsets.Minute: [
+                MinuteOfHour,
+                HourOfDay,
+                SeasonOfYear,
+            ],
+            offsets.Second: [
+                SecondOfMinute,
+                MinuteOfHour,
+                HourOfDay,
+                DayOfWeek,
+                DayOfMonth,
+                DayOfYear,
+            ],
+        }
+    elif freq_str == 't3':
+        freq_str = 't'
+        features_by_offsets = {
+            offsets.YearEnd: [],
+            offsets.QuarterEnd: [MonthOfYear],
+            offsets.MonthEnd: [MonthOfYear],
+            offsets.Week: [DayOfMonth, WeekOfYear],
+            offsets.Day: [DayOfWeek, DayOfMonth, DayOfYear],
+            offsets.BusinessDay: [DayOfWeek, DayOfMonth, DayOfYear],
+            offsets.Hour: [HourOfDay, DayOfWeek, SeasonOfYear],
+            #offsets.Hour: [HourOfDay_index, DayOfWeek_index],
+            offsets.Minute: [
+                MinuteOfHour,
+                HourOfDay,
+            ],
+            offsets.Second: [
+                SecondOfMinute,
+                MinuteOfHour,
+                HourOfDay,
+                DayOfWeek,
+                DayOfMonth,
+                DayOfYear,
+            ],
+        }
+    else:
+        if freq_str == 'h1':
+            freq_str = 'h'
+        elif freq_str == 't1':
+            freq_str = 't'
+
+        features_by_offsets = {
+            offsets.YearEnd: [],
+            offsets.QuarterEnd: [MonthOfYear],
+            offsets.MonthEnd: [MonthOfYear],
+            offsets.Week: [DayOfMonth, WeekOfYear],
+            offsets.Day: [DayOfWeek, DayOfMonth, DayOfYear],
+            offsets.BusinessDay: [DayOfWeek, DayOfMonth, DayOfYear],
+            offsets.Hour: [HourOfDay, DayOfWeek],
+            #offsets.Hour: [HourOfDay_index, DayOfWeek_index],
+            offsets.Minute: [
+                MinuteOfHour,
+                HourOfDay,
+                DayOfWeek,
+            ],
+            offsets.Second: [
+                SecondOfMinute,
+                MinuteOfHour,
+                HourOfDay,
+                DayOfWeek,
+                DayOfMonth,
+                DayOfYear,
+            ],
+        }
 
     offset = to_offset(freq_str)
 
@@ -144,5 +299,18 @@ def time_features_from_frequency_str(freq_str: str) -> List[TimeFeature]:
     raise RuntimeError(supported_freq_msg)
 
 
-def time_features(dates, freq='h'):
-    return np.vstack([feat(dates) for feat in time_features_from_frequency_str(freq)])
+def time_features(dates, freq='h', time_feature_types=['HourOfDay','DayOfWeek']):
+    time_feature_classes = {
+        'SecondOfMinute': SecondOfMinute(),
+        'MinuteOfHour': MinuteOfHour(),
+        'HourOfDay': HourOfDay(),
+        'DayOfWeek': DayOfWeek(),
+        'DayOfMonth': DayOfMonth(),
+        'DayOfYear': DayOfYear(),
+        'MonthOfYear': MonthOfYear(),
+        'WeekOfYear': WeekOfYear(),
+        'SeasonOfYear': SeasonOfYear(),
+        'WeekdayAndWeekend': WeekdayAndWeekend(),
+    }
+    time_features = np.vstack([time_feature_classes[feat](dates) for feat in time_feature_types])
+    return time_features

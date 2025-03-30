@@ -1,0 +1,67 @@
+Using GPU
+Args in experiment:
+[1mBasic Config[0m
+  Task Name:          long_term_forecast  Is Training:        1                   
+  Model ID:           ExchangeRate_336_336Model:              TimeLinear          
+
+[1mData Loader[0m
+  Data:               custom              Root Path:          /home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/ExchangeRate/
+  Data Path:          ExchangeRate.csv    Features:           M                   
+  Target:             OT                  Freq:               t                   
+  Checkpoints:        ./checkpoints/      
+
+[1mForecasting Task[0m
+  Seq Len:            336                 Label Len:          48                  
+  Pred Len:           336                 Seasonal Patterns:  Monthly             
+  Inverse:            0                   
+
+[1mModel Parameters[0m
+  Top k:              5                   Num Kernels:        6                   
+  Enc In:             8                   Dec In:             8                   
+  C Out:              8                   d model:            512                 
+  n heads:            8                   e layers:           2                   
+  d layers:           1                   d FF:               2048                
+  Moving Avg:         25                  Factor:             2                   
+  Distil:             1                   Dropout:            0.0                 
+  Embed:              timeF               Activation:         gelu                
+
+[1mRun Parameters[0m
+  Num Workers:        5                   Itr:                1                   
+  Train Epochs:       10                  Batch Size:         128                 
+  Patience:           3                   Learning Rate:      0.005               
+  Des:                Exp                 Loss:               mse                 
+  Lradj:              type1               Use Amp:            0                   
+
+[1mGPU[0m
+  Use GPU:            1                   GPU:                1                   
+  Use Multi GPU:      0                   Devices:            0,1,2,3             
+
+[1mDe-stationary Projector Params[0m
+  P Hidden Dims:      128, 128            P Hidden Layers:    2                   
+
+Use GPU: cuda:1
+>>>>>>>start training : long_term_forecast_ExchangeRate_336_336_TimeLinear_custom_ftM_sl336_ll48_pl336_dm512_nh8_el2_dl1_df2048_expand2_dc4_fc2_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 4640
+val 425
+test 1182
+Epoch: 1 cost time: 1.0956497192382812
+Epoch: 1, Steps: 36 | Train Loss: 0.4899950 Vali Loss: 0.3779434 Test Loss: 0.3759949
+Validation loss decreased (inf --> 0.377943).  Saving model ...
+Updating learning rate to 0.005
+Epoch: 2 cost time: 0.3501145839691162
+Epoch: 2, Steps: 36 | Train Loss: 0.4435080 Vali Loss: 0.4071151 Test Loss: 0.3368687
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.0025
+Epoch: 3 cost time: 0.36980152130126953
+Epoch: 3, Steps: 36 | Train Loss: 0.4361585 Vali Loss: 0.3818756 Test Loss: 0.3592720
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 0.00125
+Epoch: 4 cost time: 0.3984379768371582
+Epoch: 4, Steps: 36 | Train Loss: 0.4329933 Vali Loss: 0.3859528 Test Loss: 0.3458418
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : long_term_forecast_ExchangeRate_336_336_TimeLinear_custom_ftM_sl336_ll48_pl336_dm512_nh8_el2_dl1_df2048_expand2_dc4_fc2_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 1182
+test shape: (1182, 336, 8) (1182, 336, 8)
+test shape: (1182, 336, 8) (1182, 336, 8)
+mse:0.37599483132362366, mae:0.44324374198913574

@@ -1,4 +1,15 @@
 #export CUDA_VISIBLE_DEVICES=7
+if [ ! -d "./log" ]; then
+    mkdir ./log
+fi
+
+if [ ! -d "./log/Autoformer" ]; then
+    mkdir ./log/Autoformer
+fi
+
+if [ ! -d "./log/Autoformer/weather" ]; then
+    mkdir ./log/Autoformer/weather
+fi
 model_name='Autoformer'
 train_epochs=10
 patience=5
@@ -14,7 +25,7 @@ learning_rate=0.005
 gpu_id=1
 
 # 循环不同的预测长度（pred_len）
-for pred_len in 96 192 336 720 960 1024 1240 1688
+for pred_len in 1240
 do
     # 训练模型
     python -u run.py \
@@ -25,7 +36,7 @@ do
       --model_id weather_$seq_len'_'$pred_len \
       --model $model_name \
       --data $data_name \
-      --freq t \
+      --freq w \
       --features M \
       --gpu $gpu_id \
       --seq_len $seq_len \
@@ -35,7 +46,7 @@ do
       --c_out $c_out\
       --train_epochs $train_epochs \
       --patience $patience \
-      --itr 1 \
       --batch_size $batch_size \
-      --learning_rate $learning_rate
+      --learning_rate $learning_rate \
+      --itr 1 | tee -a ./log/Autoformer/weather/$seq_len.txt
 done

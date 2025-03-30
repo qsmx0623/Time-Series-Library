@@ -1,4 +1,15 @@
 # 设置基本参数
+if [ ! -d "./log" ]; then
+    mkdir ./log
+fi
+
+if [ ! -d "./log/Informer" ]; then
+    mkdir ./log/Informer
+fi
+
+if [ ! -d "./log/Informer/weather" ]; then
+    mkdir ./log/Informer/weather
+fi
 model_name='Informer'
 train_epochs=10
 patience=5
@@ -25,7 +36,7 @@ do
       --model_id weather_$seq_len'_'$pred_len \
       --model $model_name \
       --data $data_name \
-      --freq t \
+      --freq w \
       --features M \
       --gpu $gpu_id \
       --seq_len $seq_len \
@@ -38,7 +49,7 @@ do
       --c_out $enc_in \
       --train_epochs $train_epochs \
       --patience $patience \
-      --itr 1 \
       --batch_size $batch_size \
-      --learning_rate $learning_rate
+      --learning_rate $learning_rate \
+      --itr 1 | tee -a ./log/Informer/weather/$seq_len.txt
 done

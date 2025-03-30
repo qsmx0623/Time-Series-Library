@@ -1,0 +1,91 @@
+Using GPU
+Args in experiment:
+[1mBasic Config[0m
+  Task Name:          long_term_forecast  Is Training:        1                   
+  Model ID:           ExchangeRate_336_192Model:              TimeLinear          
+
+[1mData Loader[0m
+  Data:               custom              Root Path:          /home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/ExchangeRate/
+  Data Path:          ExchangeRate.csv    Features:           M                   
+  Target:             OT                  Freq:               t                   
+  Checkpoints:        ./checkpoints/      
+
+[1mForecasting Task[0m
+  Seq Len:            336                 Label Len:          48                  
+  Pred Len:           192                 Seasonal Patterns:  Monthly             
+  Inverse:            0                   
+
+[1mModel Parameters[0m
+  Top k:              5                   Num Kernels:        6                   
+  Enc In:             8                   Dec In:             8                   
+  C Out:              8                   d model:            512                 
+  n heads:            8                   e layers:           2                   
+  d layers:           1                   d FF:               2048                
+  Moving Avg:         25                  Factor:             2                   
+  Distil:             1                   Dropout:            0.0                 
+  Embed:              timeF               Activation:         gelu                
+
+[1mRun Parameters[0m
+  Num Workers:        5                   Itr:                1                   
+  Train Epochs:       10                  Batch Size:         128                 
+  Patience:           3                   Learning Rate:      0.005               
+  Des:                Exp                 Loss:               mse                 
+  Lradj:              type1               Use Amp:            0                   
+
+[1mGPU[0m
+  Use GPU:            1                   GPU:                1                   
+  Use Multi GPU:      0                   Devices:            0,1,2,3             
+
+[1mDe-stationary Projector Params[0m
+  P Hidden Dims:      128, 128            P Hidden Layers:    2                   
+
+Use GPU: cuda:1
+>>>>>>>start training : long_term_forecast_ExchangeRate_336_192_TimeLinear_custom_ftM_sl336_ll48_pl192_dm512_nh8_el2_dl1_df2048_expand2_dc4_fc2_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 4784
+val 569
+test 1326
+Epoch: 1 cost time: 1.0560626983642578
+Epoch: 1, Steps: 37 | Train Loss: 0.3099824 Vali Loss: 0.2403279 Test Loss: 0.1981737
+Validation loss decreased (inf --> 0.240328).  Saving model ...
+Updating learning rate to 0.005
+Epoch: 2 cost time: 0.3486461639404297
+Epoch: 2, Steps: 37 | Train Loss: 0.2582192 Vali Loss: 0.2302304 Test Loss: 0.2060330
+Validation loss decreased (0.240328 --> 0.230230).  Saving model ...
+Updating learning rate to 0.0025
+Epoch: 3 cost time: 0.31064295768737793
+Epoch: 3, Steps: 37 | Train Loss: 0.2539803 Vali Loss: 0.2279429 Test Loss: 0.1975932
+Validation loss decreased (0.230230 --> 0.227943).  Saving model ...
+Updating learning rate to 0.00125
+Epoch: 4 cost time: 0.3764190673828125
+Epoch: 4, Steps: 37 | Train Loss: 0.2505194 Vali Loss: 0.2289868 Test Loss: 0.1890681
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.000625
+Epoch: 5 cost time: 0.33000683784484863
+Epoch: 5, Steps: 37 | Train Loss: 0.2498922 Vali Loss: 0.2275942 Test Loss: 0.1894585
+Validation loss decreased (0.227943 --> 0.227594).  Saving model ...
+Updating learning rate to 0.0003125
+Epoch: 6 cost time: 0.34066152572631836
+Epoch: 6, Steps: 37 | Train Loss: 0.2493604 Vali Loss: 0.2281205 Test Loss: 0.1877983
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.00015625
+Epoch: 7 cost time: 0.3757779598236084
+Epoch: 7, Steps: 37 | Train Loss: 0.2487859 Vali Loss: 0.2266705 Test Loss: 0.1935526
+Validation loss decreased (0.227594 --> 0.226671).  Saving model ...
+Updating learning rate to 7.8125e-05
+Epoch: 8 cost time: 0.34282827377319336
+Epoch: 8, Steps: 37 | Train Loss: 0.2489595 Vali Loss: 0.2267215 Test Loss: 0.1924142
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 3.90625e-05
+Epoch: 9 cost time: 0.29643964767456055
+Epoch: 9, Steps: 37 | Train Loss: 0.2483685 Vali Loss: 0.2267781 Test Loss: 0.1918770
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 1.953125e-05
+Epoch: 10 cost time: 0.3055434226989746
+Epoch: 10, Steps: 37 | Train Loss: 0.2486168 Vali Loss: 0.2267565 Test Loss: 0.1919395
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : long_term_forecast_ExchangeRate_336_192_TimeLinear_custom_ftM_sl336_ll48_pl192_dm512_nh8_el2_dl1_df2048_expand2_dc4_fc2_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 1326
+test shape: (1326, 192, 8) (1326, 192, 8)
+test shape: (1326, 192, 8) (1326, 192, 8)
+mse:0.1935526579618454, mae:0.3106783926486969

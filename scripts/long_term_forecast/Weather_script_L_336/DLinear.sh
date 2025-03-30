@@ -1,5 +1,15 @@
 # export CUDA_VISIBLE_DEVICES=1
+if [ ! -d "./log" ]; then
+    mkdir ./log
+fi
 
+if [ ! -d "./log/DLinear" ]; then
+    mkdir ./log/DLinear
+fi
+
+if [ ! -d "./log/DLinear/weather" ]; then
+    mkdir ./log/DLinear/weather
+fi
 model_name=DLinear
 train_epochs=10
 patience=5
@@ -12,7 +22,7 @@ dec_in=21
 c_out=21
 batch_size=32
 learning_rate=0.005
-gpu_id=5
+gpu_id=7
 
 # 循环不同的预测长度（pred_len）
 for pred_len in 96 192 336 720 960 1024 1240 1688
@@ -26,7 +36,7 @@ do
       --model_id weather_$seq_len'_'$pred_len \
       --model $model_name \
       --data $data_name \
-      --freq t \
+      --freq w \
       --features M \
       --gpu $gpu_id \
       --seq_len $seq_len \
@@ -39,7 +49,7 @@ do
       --c_out $c_out\
       --train_epochs $train_epochs \
       --patience $patience \
-      --itr 1 \
       --batch_size $batch_size \
-      --learning_rate $learning_rate
+      --learning_rate $learning_rate \
+      --itr 1 | tee -a ./log/DLinear/weather/$seq_len.txt
 done

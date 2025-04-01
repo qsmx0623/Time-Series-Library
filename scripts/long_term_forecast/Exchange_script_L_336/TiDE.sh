@@ -17,7 +17,7 @@ fi
 
 model_name=TiDE
 train_epochs=10
-patience=5
+patience=3
 root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/ExchangeRate/'
 data_path_name='ExchangeRate.csv'
 data_name='custom'
@@ -26,7 +26,6 @@ enc_in=8
 dec_in=8
 c_out=8
 batch_size=64
-learning_rate=0.005
 gpu_id=1
 
 # 循环不同的预测长度（pred_len）
@@ -46,18 +45,17 @@ do
       --gpu $gpu_id \
       --seq_len $seq_len \
       --pred_len $pred_len \
-      --e_layers 2 \
+      --e_layers 1 \
       --d_layers 1 \
-      --factor 3 \
+      --factor 1 \
       --enc_in $enc_in \
       --dec_in $dec_in \
       --c_out 22 \
-      --d_model 256 \
-      --d_ff 256 \
-      --dropout 0.3 \
+      --d_model 64 \
+      --d_ff 64 \
+      --dropout 0.6 \
       --train_epochs $train_epochs \
       --patience $patience \
       --batch_size $batch_size \
-      --learning_rate $learning_rate \
       --itr 1 | tee -a ./log/TiDE/$dataset_name/$seq_len.txt
 done

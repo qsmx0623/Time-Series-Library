@@ -8,22 +8,21 @@ if [ ! -d "./log/GLAFFLinear" ]; then
     mkdir ./log/GLAFFLinear
 fi
 
-if [ ! -d "./log/GLAFFLinear/ExchangeRate" ]; then
-    mkdir ./log/GLAFFLinear/ExchangeRate
+if [ ! -d "./log/GLAFFLinear/Electricity" ]; then
+    mkdir ./log/GLAFFLinear/Electricity
 fi
 
 model_name=GLAFFLinear
 train_epochs=10
 patience=3
-root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/ExchangeRate/'
-data_path_name='ExchangeRate.csv'
+root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/Electricity/'
+data_path_name='Electricity.csv'
 seq_len=336
-enc_in=8
-dec_in=8
-c_out=8
-gpu_id=7
+enc_in=321
+dec_in=321
+c_out=321
 
-for pred_len in 192 720
+for pred_len in 96 192 336 720 960 1024 1240 1688
 do
 python -u run.py \
   --time_feature_types MonthOfYear DayOfMonth DayOfWeek \
@@ -32,7 +31,7 @@ python -u run.py \
   --with_curve 0 \
   --root_path $root_path_name \
   --data_path $data_path_name \
-  --model_id ExchangeRate_$seq_len'_'$pred_len \
+  --model_id Electricity_$seq_len'_'$pred_len \
   --model $model_name \
   --data custom \
   --features M \
@@ -51,6 +50,8 @@ python -u run.py \
   --num_workers 1 \
   --dropout 0.8 \
   --loss mse \
-  --gpu $gpu_id \
-  --itr 1 | tee -a ./log/GLAFFLinear/ExchangeRate/$seq_len.txt
+  --itr 1 \
+  --gpu 5 \
+  --device '5,6,7' \
+  --use_multi_gpu
 done

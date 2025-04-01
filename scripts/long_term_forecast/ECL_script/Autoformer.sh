@@ -1,87 +1,51 @@
-export CUDA_VISIBLE_DEVICES=1
+#export CUDA_VISIBLE_DEVICES=7
+if [ ! -d "./log" ]; then
+    mkdir ./log
+fi
 
-model_name=Autoformer
+if [ ! -d "./log/Autoformer" ]; then
+    mkdir ./log/Autoformer
+fi
 
-python -u run.py \
-  --task_name long_term_forecast \
-  --is_training 1 \
-  --root_path ./dataset/electricity/ \
-  --data_path electricity.csv \
-  --model_id ECL_96_96 \
-  --model $model_name \
-  --data custom \
-  --features M \
-  --seq_len 96 \
-  --label_len 48 \
-  --pred_len 96 \
-  --e_layers 2 \
-  --d_layers 1 \
-  --factor 3 \
-  --enc_in 321 \
-  --dec_in 321 \
-  --c_out 321 \
-  --des 'Exp' \
-  --itr 1
+if [ ! -d "./log/Autoformer/Electricity" ]; then
+    mkdir ./log/Autoformer/Electricity
+fi
+model_name='Autoformer'
+train_epochs=10
+patience=5
+root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/Electricity/'
+data_path_name='Electricity.csv'
+data_name='custom'
+seq_len=336
+enc_in=321
+dec_in=321
+c_out=321
+batch_size=16
 
-python -u run.py \
-  --task_name long_term_forecast \
-  --is_training 1 \
-  --root_path ./dataset/electricity/ \
-  --data_path electricity.csv \
-  --model_id ECL_96_192 \
-  --model $model_name \
-  --data custom \
-  --features M \
-  --seq_len 96 \
-  --label_len 48 \
-  --pred_len 192 \
-  --e_layers 2 \
-  --d_layers 1 \
-  --factor 3 \
-  --enc_in 321 \
-  --dec_in 321 \
-  --c_out 321 \
-  --des 'Exp' \
-  --itr 1
-
-python -u run.py \
-  --task_name long_term_forecast \
-  --is_training 1 \
-  --root_path ./dataset/electricity/ \
-  --data_path electricity.csv \
-  --model_id ECL_96_336 \
-  --model $model_name \
-  --data custom \
-  --features M \
-  --seq_len 96 \
-  --label_len 48 \
-  --pred_len 336 \
-  --e_layers 2 \
-  --d_layers 1 \
-  --factor 3 \
-  --enc_in 321 \
-  --dec_in 321 \
-  --c_out 321 \
-  --des 'Exp' \
-  --itr 1
-
-python -u run.py \
-  --task_name long_term_forecast \
-  --is_training 1 \
-  --root_path ./dataset/electricity/ \
-  --data_path electricity.csv \
-  --model_id ECL_96_720 \
-  --model $model_name \
-  --data custom \
-  --features M \
-  --seq_len 96 \
-  --label_len 48 \
-  --pred_len 720 \
-  --e_layers 2 \
-  --d_layers 1 \
-  --factor 3 \
-  --enc_in 321 \
-  --dec_in 321 \
-  --c_out 321 \
-  --des 'Exp' \
-  --itr 1
+# 循环不同的预测长度（pred_len）
+for pred_len in 96 192 336 720 960 1024 1240 1688
+do
+    # 训练模型
+    python -u run.py \
+      --task_name long_term_forecast \
+      --is_training 1 \
+      --root_path $root_path_name \
+      --data_path $data_path_name \
+      --model_id Electricity_$seq_len'_'$pred_len \
+      --model $model_name \
+      --data $data_name \
+      --freq w \
+      --features M \
+      --seq_len $seq_len \
+      --pred_len $pred_len \
+      --enc_in $enc_in \
+      --dec_in $dec_in \
+      --c_out $c_out\
+      --train_epochs $train_epochs \
+      --patience $patience \
+      --batch_size $batch_size \
+      --itr 1 \
+      --gpu 5 \
+      --device '5,6,7' \
+      --use_multi_gpu
+done

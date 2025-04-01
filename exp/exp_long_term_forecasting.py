@@ -20,11 +20,17 @@ class Exp_Long_Term_Forecast(Exp_Basic):
 
     def _build_model(self):
         model = self.model_dict[self.args.model].Model(self.args).float()
-
+        '''
         if self.args.use_multi_gpu and self.args.use_gpu:
             model = nn.DataParallel(model, device_ids=self.args.device_ids)
         return model
-
+        '''
+        # 如果使用多个 GPU，使用 nn.DataParallel
+        if self.args.use_multi_gpu and self.args.use_gpu:
+            model = model.to(f'cuda:{self.args.device_ids[0]}')
+            model = nn.DataParallel(model, device_ids=[int(id_) for id_ in self.args.devices.split(',')])
+        return model
+    
     def _get_data(self, flag):
         data_set, data_loader = data_provider(self.args, flag)
         return data_set, data_loader

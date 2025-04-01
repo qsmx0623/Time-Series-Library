@@ -13,7 +13,7 @@ class Plugin(nn.Module):
         self.pred_len = args.pred_len
 
         self.Encoder = nn.Sequential(
-            nn.Linear(6, args.dim),
+            nn.Linear(3, args.dim),
             nn.TransformerEncoder(
                 nn.TransformerEncoderLayer(
                     d_model=args.dim,

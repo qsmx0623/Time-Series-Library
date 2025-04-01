@@ -11,7 +11,7 @@ if [ ! -d "./log/Informer/ExchangeRate" ]; then
     mkdir ./log/Informer/ExchangeRate
 fi
 model_name='Informer'
-train_epochs=10
+train_epochs=30
 patience=5
 root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/ExchangeRate/'
 data_path_name='ExchangeRate.csv'
@@ -21,8 +21,7 @@ enc_in=8
 dec_in=8
 c_out=8
 batch_size=64
-learning_rate=0.005
-gpu_id=1
+gpu_id=4
 
 # 循环不同的预测长度（pred_len）
 for pred_len in 96 192 336 720
@@ -50,6 +49,5 @@ do
       --train_epochs $train_epochs \
       --patience $patience \
       --batch_size $batch_size \
-      --learning_rate $learning_rate \
       --itr 1 | tee -a ./log/Informer/ExchangeRate/$seq_len.txt
 done

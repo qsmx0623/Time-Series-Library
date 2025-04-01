@@ -28,10 +28,10 @@ c_out=7
 
 train_epochs=10
 patience=5
-gpu_id=7
+gpu_id=6
 
 # 循环不同的预测长度（pred_len）
-for pred_len in 96 192 336 720 960 1024 1240 1688
+for pred_len in 1688
 do
     # 训练模型
     python -u run.py \
@@ -44,7 +44,7 @@ do
       --data $data_name \
       --features M \
       --freq w \
-      --batch_size 64 \
+      --batch_size 16 \
       --gpu $gpu_id \
       --seq_len $seq_len \
       --pred_len $pred_len \

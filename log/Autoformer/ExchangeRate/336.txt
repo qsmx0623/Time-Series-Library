@@ -599,3 +599,354 @@ Args in experiment:
 Use GPU: cuda:1
 >>>>>>>start training : long_term_forecast_ExchangeRate_336_1688_Autoformer_custom_ftM_sl336_ll48_pl1688_dm512_nh8_el2_dl1_df2048_expand2_dc4_fc1_ebtimeF_dtTrue_test_0>>>>>>>>>>>>>>>>>>>>>>>>>>
 train 3288
+Using GPU
+Args in experiment:
+[1mBasic Config[0m
+  Task Name:          long_term_forecast  Is Training:        1                   
+  Model ID:           ExchangeRate_336_96 Model:              Autoformer          
+
+[1mData Loader[0m
+  Data:               custom              Root Path:          /home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/ExchangeRate/
+  Data Path:          ExchangeRate.csv    Features:           M                   
+  Target:             OT                  Freq:               w                   
+  Checkpoints:        ./checkpoints/      
+
+[1mForecasting Task[0m
+  Seq Len:            336                 Label Len:          48                  
+  Pred Len:           96                  Seasonal Patterns:  Monthly             
+  Inverse:            0                   
+
+[1mModel Parameters[0m
+  Top k:              5                   Num Kernels:        6                   
+  Enc In:             8                   Dec In:             8                   
+  C Out:              8                   d model:            512                 
+  n heads:            8                   e layers:           2                   
+  d layers:           1                   d FF:               2048                
+  Moving Avg:         25                  Factor:             1                   
+  Distil:             1                   Dropout:            0.1                 
+  Embed:              timeF               Activation:         gelu                
+
+[1mRun Parameters[0m
+  Num Workers:        10                  Itr:                1                   
+  Train Epochs:       30                  Batch Size:         64                  
+  Patience:           5                   Learning Rate:      0.0001              
+  Des:                test                Loss:               MSE                 
+  Lradj:              type1               Use Amp:            0                   
+
+[1mGPU[0m
+  Use GPU:            1                   GPU:                1                   
+  Use Multi GPU:      0                   Devices:            0,1,2,3             
+
+[1mDe-stationary Projector Params[0m
+  P Hidden Dims:      128, 128            P Hidden Layers:    2                   
+
+Use GPU: cuda:1
+>>>>>>>start training : long_term_forecast_ExchangeRate_336_96_Autoformer_custom_ftM_sl336_ll48_pl96_dm512_nh8_el2_dl1_df2048_expand2_dc4_fc1_ebtimeF_dtTrue_test_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 4880
+val 665
+test 1422
+Epoch: 1 cost time: 17.161113023757935
+Epoch: 1, Steps: 76 | Train Loss: 0.4414456 Vali Loss: 0.3004603 Test Loss: 0.3817687
+Validation loss decreased (inf --> 0.300460).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 15.522681713104248
+Epoch: 2, Steps: 76 | Train Loss: 0.3908128 Vali Loss: 0.3459756 Test Loss: 0.4482176
+EarlyStopping counter: 1 out of 5
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 15.256978034973145
+Epoch: 3, Steps: 76 | Train Loss: 0.3746570 Vali Loss: 0.4386238 Test Loss: 0.5463902
+EarlyStopping counter: 2 out of 5
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 14.358619689941406
+Epoch: 4, Steps: 76 | Train Loss: 0.3658885 Vali Loss: 0.5024503 Test Loss: 0.7712877
+EarlyStopping counter: 3 out of 5
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 17.09978151321411
+Epoch: 5, Steps: 76 | Train Loss: 0.3554622 Vali Loss: 0.5659998 Test Loss: 0.8647391
+EarlyStopping counter: 4 out of 5
+Updating learning rate to 6.25e-06
+Epoch: 6 cost time: 16.15439534187317
+Epoch: 6, Steps: 76 | Train Loss: 0.3485309 Vali Loss: 0.6073729 Test Loss: 0.9430559
+EarlyStopping counter: 5 out of 5
+Early stopping
+>>>>>>>testing : long_term_forecast_ExchangeRate_336_96_Autoformer_custom_ftM_sl336_ll48_pl96_dm512_nh8_el2_dl1_df2048_expand2_dc4_fc1_ebtimeF_dtTrue_test_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 1422
+test shape: (1422, 96, 8) (1422, 96, 8)
+test shape: (1422, 96, 8) (1422, 96, 8)
+mse:0.38176876306533813, mae:0.4688240587711334
+Using GPU
+Args in experiment:
+[1mBasic Config[0m
+  Task Name:          long_term_forecast  Is Training:        1                   
+  Model ID:           ExchangeRate_336_192Model:              Autoformer          
+
+[1mData Loader[0m
+  Data:               custom              Root Path:          /home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/ExchangeRate/
+  Data Path:          ExchangeRate.csv    Features:           M                   
+  Target:             OT                  Freq:               w                   
+  Checkpoints:        ./checkpoints/      
+
+[1mForecasting Task[0m
+  Seq Len:            336                 Label Len:          48                  
+  Pred Len:           192                 Seasonal Patterns:  Monthly             
+  Inverse:            0                   
+
+[1mModel Parameters[0m
+  Top k:              5                   Num Kernels:        6                   
+  Enc In:             8                   Dec In:             8                   
+  C Out:              8                   d model:            512                 
+  n heads:            8                   e layers:           2                   
+  d layers:           1                   d FF:               2048                
+  Moving Avg:         25                  Factor:             1                   
+  Distil:             1                   Dropout:            0.1                 
+  Embed:              timeF               Activation:         gelu                
+
+[1mRun Parameters[0m
+  Num Workers:        10                  Itr:                1                   
+  Train Epochs:       30                  Batch Size:         64                  
+  Patience:           5                   Learning Rate:      0.0001              
+  Des:                test                Loss:               MSE                 
+  Lradj:              type1               Use Amp:            0                   
+
+[1mGPU[0m
+  Use GPU:            1                   GPU:                1                   
+  Use Multi GPU:      0                   Devices:            0,1,2,3             
+
+[1mDe-stationary Projector Params[0m
+  P Hidden Dims:      128, 128            P Hidden Layers:    2                   
+
+Use GPU: cuda:1
+>>>>>>>start training : long_term_forecast_ExchangeRate_336_192_Autoformer_custom_ftM_sl336_ll48_pl192_dm512_nh8_el2_dl1_df2048_expand2_dc4_fc1_ebtimeF_dtTrue_test_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 4784
+val 569
+test 1326
+Epoch: 1 cost time: 21.374140739440918
+Epoch: 1, Steps: 74 | Train Loss: 0.5597232 Vali Loss: 0.5153107 Test Loss: 0.4696278
+Validation loss decreased (inf --> 0.515311).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 20.228803873062134
+Epoch: 2, Steps: 74 | Train Loss: 0.5036694 Vali Loss: 0.6054448 Test Loss: 0.8359123
+EarlyStopping counter: 1 out of 5
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 19.776612997055054
+Epoch: 3, Steps: 74 | Train Loss: 0.4873638 Vali Loss: 0.6587106 Test Loss: 0.8419814
+EarlyStopping counter: 2 out of 5
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 17.832938194274902
+Epoch: 4, Steps: 74 | Train Loss: 0.4742681 Vali Loss: 0.7166980 Test Loss: 0.8475488
+EarlyStopping counter: 3 out of 5
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 17.171040058135986
+Epoch: 5, Steps: 74 | Train Loss: 0.4674156 Vali Loss: 0.8805923 Test Loss: 1.0286064
+EarlyStopping counter: 4 out of 5
+Updating learning rate to 6.25e-06
+Epoch: 6 cost time: 17.77545189857483
+Epoch: 6, Steps: 74 | Train Loss: 0.4651297 Vali Loss: 0.8444582 Test Loss: 0.9918786
+EarlyStopping counter: 5 out of 5
+Early stopping
+>>>>>>>testing : long_term_forecast_ExchangeRate_336_192_Autoformer_custom_ftM_sl336_ll48_pl192_dm512_nh8_el2_dl1_df2048_expand2_dc4_fc1_ebtimeF_dtTrue_test_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 1326
+test shape: (1326, 192, 8) (1326, 192, 8)
+test shape: (1326, 192, 8) (1326, 192, 8)
+mse:0.46962761878967285, mae:0.5278263092041016
+Using GPU
+Args in experiment:
+[1mBasic Config[0m
+  Task Name:          long_term_forecast  Is Training:        1                   
+  Model ID:           ExchangeRate_336_336Model:              Autoformer          
+
+[1mData Loader[0m
+  Data:               custom              Root Path:          /home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/ExchangeRate/
+  Data Path:          ExchangeRate.csv    Features:           M                   
+  Target:             OT                  Freq:               w                   
+  Checkpoints:        ./checkpoints/      
+
+[1mForecasting Task[0m
+  Seq Len:            336                 Label Len:          48                  
+  Pred Len:           336                 Seasonal Patterns:  Monthly             
+  Inverse:            0                   
+
+[1mModel Parameters[0m
+  Top k:              5                   Num Kernels:        6                   
+  Enc In:             8                   Dec In:             8                   
+  C Out:              8                   d model:            512                 
+  n heads:            8                   e layers:           2                   
+  d layers:           1                   d FF:               2048                
+  Moving Avg:         25                  Factor:             1                   
+  Distil:             1                   Dropout:            0.1                 
+  Embed:              timeF               Activation:         gelu                
+
+[1mRun Parameters[0m
+  Num Workers:        10                  Itr:                1                   
+  Train Epochs:       30                  Batch Size:         64                  
+  Patience:           5                   Learning Rate:      0.0001              
+  Des:                test                Loss:               MSE                 
+  Lradj:              type1               Use Amp:            0                   
+
+[1mGPU[0m
+  Use GPU:            1                   GPU:                1                   
+  Use Multi GPU:      0                   Devices:            0,1,2,3             
+
+[1mDe-stationary Projector Params[0m
+  P Hidden Dims:      128, 128            P Hidden Layers:    2                   
+
+Use GPU: cuda:1
+>>>>>>>start training : long_term_forecast_ExchangeRate_336_336_Autoformer_custom_ftM_sl336_ll48_pl336_dm512_nh8_el2_dl1_df2048_expand2_dc4_fc1_ebtimeF_dtTrue_test_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 4640
+val 425
+test 1182
+Epoch: 1 cost time: 24.446318864822388
+Epoch: 1, Steps: 72 | Train Loss: 0.7126754 Vali Loss: 0.6192921 Test Loss: 0.7355447
+Validation loss decreased (inf --> 0.619292).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 18.969154834747314
+Using GPU
+Args in experiment:
+[1mBasic Config[0m
+  Task Name:          long_term_forecast  Is Training:        1                   
+  Model ID:           ExchangeRate_336_336Model:              Autoformer          
+
+[1mData Loader[0m
+  Data:               custom              Root Path:          /home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/ExchangeRate/
+  Data Path:          ExchangeRate.csv    Features:           M                   
+  Target:             OT                  Freq:               w                   
+  Checkpoints:        ./checkpoints/      
+
+[1mForecasting Task[0m
+  Seq Len:            336                 Label Len:          48                  
+  Pred Len:           336                 Seasonal Patterns:  Monthly             
+  Inverse:            0                   
+
+[1mModel Parameters[0m
+  Top k:              5                   Num Kernels:        6                   
+  Enc In:             8                   Dec In:             8                   
+  C Out:              8                   d model:            512                 
+  n heads:            8                   e layers:           2                   
+  d layers:           1                   d FF:               2048                
+  Moving Avg:         25                  Factor:             1                   
+  Distil:             1                   Dropout:            0.1                 
+  Embed:              timeF               Activation:         gelu                
+
+[1mRun Parameters[0m
+  Num Workers:        10                  Itr:                1                   
+  Train Epochs:       30                  Batch Size:         64                  
+  Patience:           5                   Learning Rate:      0.0001              
+  Des:                test                Loss:               MSE                 
+  Lradj:              type1               Use Amp:            0                   
+
+[1mGPU[0m
+  Use GPU:            1                   GPU:                1                   
+  Use Multi GPU:      0                   Devices:            0,1,2,3             
+
+[1mDe-stationary Projector Params[0m
+  P Hidden Dims:      128, 128            P Hidden Layers:    2                   
+
+Use GPU: cuda:1
+>>>>>>>start training : long_term_forecast_ExchangeRate_336_336_Autoformer_custom_ftM_sl336_ll48_pl336_dm512_nh8_el2_dl1_df2048_expand2_dc4_fc1_ebtimeF_dtTrue_test_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 4640
+val 425
+test 1182
+Epoch: 1 cost time: 21.604194402694702
+Epoch: 1, Steps: 72 | Train Loss: 0.7165852 Vali Loss: 0.6140444 Test Loss: 0.7374615
+Validation loss decreased (inf --> 0.614044).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 19.245477199554443
+Epoch: 2, Steps: 72 | Train Loss: 0.6664625 Vali Loss: 0.6981654 Test Loss: 0.8583349
+EarlyStopping counter: 1 out of 5
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 20.29555082321167
+Epoch: 3, Steps: 72 | Train Loss: 0.6467757 Vali Loss: 1.0773206 Test Loss: 0.9961837
+EarlyStopping counter: 2 out of 5
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 20.688260078430176
+Epoch: 4, Steps: 72 | Train Loss: 0.6310835 Vali Loss: 1.3642609 Test Loss: 1.2629891
+EarlyStopping counter: 3 out of 5
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 21.22883915901184
+Epoch: 5, Steps: 72 | Train Loss: 0.6231021 Vali Loss: 1.5943841 Test Loss: 1.2910263
+EarlyStopping counter: 4 out of 5
+Updating learning rate to 6.25e-06
+Epoch: 6 cost time: 19.000056266784668
+Epoch: 6, Steps: 72 | Train Loss: 0.6193786 Vali Loss: 1.7363185 Test Loss: 1.3629351
+EarlyStopping counter: 5 out of 5
+Early stopping
+>>>>>>>testing : long_term_forecast_ExchangeRate_336_336_Autoformer_custom_ftM_sl336_ll48_pl336_dm512_nh8_el2_dl1_df2048_expand2_dc4_fc1_ebtimeF_dtTrue_test_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 1182
+test shape: (1182, 336, 8) (1182, 336, 8)
+test shape: (1182, 336, 8) (1182, 336, 8)
+mse:0.737461268901825, mae:0.6726542115211487
+Using GPU
+Args in experiment:
+[1mBasic Config[0m
+  Task Name:          long_term_forecast  Is Training:        1                   
+  Model ID:           ExchangeRate_336_720Model:              Autoformer          
+
+[1mData Loader[0m
+  Data:               custom              Root Path:          /home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/ExchangeRate/
+  Data Path:          ExchangeRate.csv    Features:           M                   
+  Target:             OT                  Freq:               w                   
+  Checkpoints:        ./checkpoints/      
+
+[1mForecasting Task[0m
+  Seq Len:            336                 Label Len:          48                  
+  Pred Len:           720                 Seasonal Patterns:  Monthly             
+  Inverse:            0                   
+
+[1mModel Parameters[0m
+  Top k:              5                   Num Kernels:        6                   
+  Enc In:             8                   Dec In:             8                   
+  C Out:              8                   d model:            512                 
+  n heads:            8                   e layers:           2                   
+  d layers:           1                   d FF:               2048                
+  Moving Avg:         25                  Factor:             1                   
+  Distil:             1                   Dropout:            0.1                 
+  Embed:              timeF               Activation:         gelu                
+
+[1mRun Parameters[0m
+  Num Workers:        10                  Itr:                1                   
+  Train Epochs:       30                  Batch Size:         64                  
+  Patience:           5                   Learning Rate:      0.0001              
+  Des:                test                Loss:               MSE                 
+  Lradj:              type1               Use Amp:            0                   
+
+[1mGPU[0m
+  Use GPU:            1                   GPU:                1                   
+  Use Multi GPU:      0                   Devices:            0,1,2,3             
+
+[1mDe-stationary Projector Params[0m
+  P Hidden Dims:      128, 128            P Hidden Layers:    2                   
+
+Use GPU: cuda:1
+>>>>>>>start training : long_term_forecast_ExchangeRate_336_720_Autoformer_custom_ftM_sl336_ll48_pl720_dm512_nh8_el2_dl1_df2048_expand2_dc4_fc1_ebtimeF_dtTrue_test_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 4256
+val 41
+test 798
+Epoch: 1 cost time: 22.87958574295044
+Epoch: 1, Steps: 66 | Train Loss: 1.0827112 Vali Loss: 0.9432096 Test Loss: 1.3372364
+Validation loss decreased (inf --> 0.943210).  Saving model ...
+Updating learning rate to 0.0001
+Epoch: 2 cost time: 24.10625958442688
+Epoch: 2, Steps: 66 | Train Loss: 1.0312907 Vali Loss: 1.5054796 Test Loss: 1.4510254
+EarlyStopping counter: 1 out of 5
+Updating learning rate to 5e-05
+Epoch: 3 cost time: 21.655422687530518
+Epoch: 3, Steps: 66 | Train Loss: 0.9114416 Vali Loss: 1.4684570 Test Loss: 1.4600078
+EarlyStopping counter: 2 out of 5
+Updating learning rate to 2.5e-05
+Epoch: 4 cost time: 22.198418855667114
+Epoch: 4, Steps: 66 | Train Loss: 0.8604769 Vali Loss: 1.6999370 Test Loss: 1.3673383
+EarlyStopping counter: 3 out of 5
+Updating learning rate to 1.25e-05
+Epoch: 5 cost time: 20.820936679840088
+Epoch: 5, Steps: 66 | Train Loss: 0.8560198 Vali Loss: 2.2534826 Test Loss: 1.2772558
+EarlyStopping counter: 4 out of 5
+Updating learning rate to 6.25e-06
+Epoch: 6 cost time: 22.637435913085938
+Epoch: 6, Steps: 66 | Train Loss: 0.8273301 Vali Loss: 2.0776420 Test Loss: 1.2038784
+EarlyStopping counter: 5 out of 5
+Early stopping
+>>>>>>>testing : long_term_forecast_ExchangeRate_336_720_Autoformer_custom_ftM_sl336_ll48_pl720_dm512_nh8_el2_dl1_df2048_expand2_dc4_fc1_ebtimeF_dtTrue_test_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 798
+test shape: (798, 720, 8) (798, 720, 8)
+test shape: (798, 720, 8) (798, 720, 8)
+mse:1.3372362852096558, mae:0.8948448300361633

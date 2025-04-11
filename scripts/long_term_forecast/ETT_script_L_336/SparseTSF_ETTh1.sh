@@ -1,7 +1,7 @@
 model_name=SparseTSF
 
-root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/Weather/'
-data_path_name='Weather.csv'
+root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/ETTh1/'
+data_path_name='ETTh1.csv'
 model_id_name=ETTh1
 data_name=ETTh1
 gpu_id=7
@@ -23,8 +23,8 @@ do
     --period_len 24 \
     --model_type 'linear' \
     --enc_in 7 \
-    --train_epochs 10 \
-    --patience 3 \
+    --train_epochs 30 \
+    --patience 10 \
     --itr 1 --batch_size 256 \
     --gpu $gpu_id 
 done

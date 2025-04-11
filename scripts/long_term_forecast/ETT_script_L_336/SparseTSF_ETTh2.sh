@@ -1,13 +1,13 @@
 model_name=SparseTSF
 
-root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/ETTh1/'
-data_path_name='ETTh1.csv'
-model_id_name=ETTh1
-data_name=ETTh1
+root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/ETTh2/'
+data_path_name='ETTh2.csv'
+model_id_name=ETTh2
+data_name=ETTh2
 gpu_id=7
 
 seq_len=336
-for pred_len in 1024 1240 1688
+for pred_len in 96 192 336 720 960 1024 1240 1688
 do
   python -u run.py \
     --task_name long_term_forecast \

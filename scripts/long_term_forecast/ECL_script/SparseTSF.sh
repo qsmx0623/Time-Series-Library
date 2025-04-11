@@ -1,13 +1,13 @@
 model_name=SparseTSF
 
-root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/ETTh1/'
-data_path_name='ETTh1.csv'
-model_id_name=ETTh1
-data_name=ETTh1
+root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/Electricity/'
+data_path_name='Electricity.csv'
+data_name='custom'
+data_name=Electricity
 gpu_id=7
 
 seq_len=336
-for pred_len in 1024 1240 1688
+for pred_len in 96 192 336 720 960 1024 1240 1688
 do
   python -u run.py \
     --task_name long_term_forecast \
@@ -20,9 +20,9 @@ do
     --features M \
     --seq_len $seq_len \
     --pred_len $pred_len \
-    --period_len 4 \
+    --period_len 24 \
     --model_type 'linear' \
-    --enc_in 7 \
+    --enc_in 321 \
     --train_epochs 10 \
     --patience 5 \
     --itr 1 --batch_size 256 \

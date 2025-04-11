@@ -16,7 +16,7 @@ if [ ! -d "./log/TiDE/$dataset_name" ]; then
 fi
 
 model_name=TiDE
-train_epochs=10
+train_epochs=5
 patience=3
 root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/Electricity/'
 data_path_name='Electricity.csv'
@@ -48,14 +48,14 @@ do
       --enc_in $enc_in \
       --dec_in $dec_in \
       --c_out 322 \
-      --d_model 64 \
-      --d_ff 64 \
-      --dropout 0.6 \
+      --d_model 16 \
+      --d_ff 16 \
+      --dropout 0.99 \
       --train_epochs $train_epochs \
       --patience $patience \
       --batch_size $batch_size \
       --itr 1 \
-      --gpu 5 \
-      --device '5,6,7' \
+      --gpu 3 \
+      --device '3,4,5,6,7' \
       --use_multi_gpu
 done

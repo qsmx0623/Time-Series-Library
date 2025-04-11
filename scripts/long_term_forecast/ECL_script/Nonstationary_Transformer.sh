@@ -25,7 +25,7 @@ train_epochs=10
 patience=5
 
 # 循环不同的预测长度（pred_len）
-for pred_len in 96 192 336 720 960 1024 1240 1688
+for pred_len in 960 1024 1240 1688
 do
     # 训练模型
     python -u run.py \
@@ -53,7 +53,7 @@ do
       --p_hidden_dims 256 256 \
       --p_hidden_layers 2 \
       --d_model 256 \
-      --gpu 5 \
-      --device '5,6,7' \
+      --gpu 3 \
+      --device '3,4,5,6,7' \
       --use_multi_gpu
 done

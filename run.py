@@ -46,6 +46,10 @@ if __name__ == '__main__':
     parser.add_argument('--seasonal_patterns', type=str, default='Monthly', help='subset for M4')
     parser.add_argument('--inverse', action='store_true', help='inverse output data', default=False)
 
+    # SparseTSF
+    parser.add_argument('--period_len', type=int, default=24, help='period length')
+    parser.add_argument('--model_type', default='linear', help='model type: linear/mlp')
+
     # inputation task
     parser.add_argument('--mask_rate', type=float, default=0.25, help='mask ratio')
 

@@ -70,7 +70,9 @@ class Exp_Long_Term_Forecast(Exp_Basic):
                         else:
                             outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                 else:
-                    if 'FITS' in self.args.model:
+                    if 'SparseTSF' in self.args.model:
+                        outputs = self.model(batch_x)
+                    elif 'FITS' in self.args.model:
                         outputs, low = self.model(batch_x, batch_x_mark, batch_y_mark)
                     elif 'GLAFF' in self.args.model:
                         label_len = self.args.seq_len // 2
@@ -152,7 +154,14 @@ class Exp_Long_Term_Forecast(Exp_Basic):
                         loss = criterion(outputs, batch_y)
                         train_loss.update(loss.item(), outputs.shape[0])
                 else:
-                    if 'FITS' in self.args.model:
+                    if 'SparseTSF' in self.args.model:
+                        outputs = self.model(batch_x)
+                        f_dim = -1 if self.args.features == 'MS' else 0
+                        outputs = outputs[:, -self.args.pred_len:, f_dim:]
+                        batch_y = batch_y[:, -self.args.pred_len:, f_dim:].to(self.device)
+                        loss = criterion(outputs, batch_y)
+                        train_loss.update(loss.item(), outputs.shape[0])
+                    elif 'FITS' in self.args.model:
                         outputs, low = self.model(batch_x, batch_x_mark, batch_y_mark)
                         batch_xy = torch.cat([batch_x, batch_y], dim=1)
                         f_dim = -1 if self.args.features == 'MS' else 0
@@ -263,7 +272,9 @@ class Exp_Long_Term_Forecast(Exp_Basic):
                         else:
                             outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                 else:
-                    if 'FITS' in self.args.model:
+                    if 'SparseTSF' in self.args.model:
+                        outputs = self.model(batch_x)
+                    elif 'FITS' in self.args.model:
                         outputs, low = self.model(batch_x, batch_x_mark, batch_y_mark)
                     elif 'GLAFF' in self.args.model:
                         label_len = self.args.seq_len // 2

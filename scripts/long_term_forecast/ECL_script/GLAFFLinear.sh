@@ -13,7 +13,7 @@ if [ ! -d "./log/GLAFFLinear/Electricity" ]; then
 fi
 
 model_name=GLAFFLinear
-train_epochs=10
+train_epochs=5
 patience=3
 root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/Electricity/'
 data_path_name='Electricity.csv'
@@ -22,7 +22,7 @@ enc_in=321
 dec_in=321
 c_out=321
 
-for pred_len in 96 192 336 720 960 1024 1240 1688
+for pred_len in 1024 1688
 do
 python -u run.py \
   --time_feature_types MonthOfYear DayOfMonth DayOfWeek \
@@ -44,14 +44,14 @@ python -u run.py \
   --c_out $c_out\
   --des 'Exp' \
   --learning_rate 0.001 \
-  --batch_size 64 \
+  --batch_size 16 \
   --train_epochs $train_epochs \
   --patience $patience \
   --num_workers 1 \
-  --dropout 0.8 \
+  --dropout 0.6 \
   --loss mse \
   --itr 1 \
-  --gpu 5 \
-  --device '5,6,7' \
+  --gpu 0 \
+  --device '0,1,3,4,5,6' \
   --use_multi_gpu
 done

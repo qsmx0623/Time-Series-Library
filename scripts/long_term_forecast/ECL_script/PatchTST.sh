@@ -54,7 +54,7 @@ do
       --batch_size $batch_size \
       --learning_rate $learning_rate \
       --itr 1 \
-      --gpu 5 \
-      --device '5,6,7' \
+      --gpu 3 \
+      --device '3,4,5,6,7' \
       --use_multi_gpu
 done

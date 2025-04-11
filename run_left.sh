@@ -3,7 +3,7 @@
 # 定义数据集和对应脚本的关系
 declare -A dataset_scripts
 dataset_scripts=(
-  ["Electricity"]="Autoformer.sh Crossformer.sh Informer.sh Nonstationary_Transformer.sh PatchTST.sh TiDE.sh DLinear.sh GLAFFLinear.sh TimeLinear.sh"
+  ["Electricity"]="Crossformer.sh GLAFFLinear.sh TimeLinear.sh"
 )
 
 # 定义基本路径

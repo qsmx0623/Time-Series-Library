@@ -13,7 +13,7 @@ if [ ! -d "./log/Crossformer/Electricity" ]; then
 fi
 model_name='Crossformer'
 train_epochs=10
-patience=5
+patience=3
 root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/Electricity/'
 data_path_name='Electricity.csv'
 data_name='custom'
@@ -21,11 +21,11 @@ seq_len=336
 enc_in=321
 dec_in=321
 c_out=321
-batch_size=16
+batch_size=4
 learning_rate=0.005
 
 # 循环不同的预测长度（pred_len）
-for pred_len in 96 192 336 720 960 1024 1240 1688
+for pred_len in 96 192
 do
     # 训练模型
     python -u run.py \
@@ -48,7 +48,7 @@ do
       --batch_size $batch_size \
       --learning_rate $learning_rate \
       --itr 1 \
-      --gpu 5 \
-      --device '5,6,7' \
+      --gpu 4 \
+      --device '4,5,6,7' \
       --use_multi_gpu
 done

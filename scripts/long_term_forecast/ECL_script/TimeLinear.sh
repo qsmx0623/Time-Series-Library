@@ -25,9 +25,9 @@ dec_in=321
 c_out=321
 
 # 循环不同的预测长度（pred_len）
-for pred_len in 96 192 336 720 960 1024 1240 1688
+for pred_len in 336 720 960 1024 1240 1688
 do
-    for beta in 0.5
+    for beta in 0.1
     do
         # 训练模型
         python -u run.py \
@@ -55,13 +55,13 @@ do
           --beta $beta \
           --learning_rate 0.005 \
           --batch_size 16 \
-          --train_epochs 10 \
-          --num_workers 2 \
+          --train_epochs 3 \
+          --num_workers 1 \
           --dropout 0 \
           --loss mse \
           --itr 1 \
-          --gpu 5 \
-          --device '5,6,7' \
+          --gpu 0 \
+          --device '0,1,3,4,5,6' \
           --use_multi_gpu
     done
 done

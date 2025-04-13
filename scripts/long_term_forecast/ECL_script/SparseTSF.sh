@@ -3,8 +3,8 @@ model_name=SparseTSF
 root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/Electricity/'
 data_path_name='Electricity.csv'
 data_name='custom'
-data_name=Electricity
-gpu_id=7
+model_id_name=Electricity
+gpu_id=4
 
 seq_len=336
 for pred_len in 96 192 336 720 960 1024 1240 1688
@@ -20,11 +20,11 @@ do
     --features M \
     --seq_len $seq_len \
     --pred_len $pred_len \
-    --period_len 24 \
+    --period_len 4 \
     --model_type 'linear' \
     --enc_in 321 \
     --train_epochs 10 \
     --patience 5 \
-    --itr 1 --batch_size 256 \
+    --itr 1 --batch_size 64 \
     --gpu $gpu_id 
 done

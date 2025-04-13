@@ -7,7 +7,7 @@ model_id_name=Electricity
 gpu_id=4
 
 seq_len=336
-for pred_len in 96 192 336 720 960 1024 1240 1688
+for pred_len in 1688
 do
   python -u run.py \
     --task_name long_term_forecast \

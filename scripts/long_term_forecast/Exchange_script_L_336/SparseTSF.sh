@@ -1,13 +1,13 @@
 model_name=SparseTSF
 
-root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/Electricity/'
-data_path_name='Electricity.csv'
+root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/ExchangeRate/'
+data_path_name='ExchangeRate.csv'
 data_name='custom'
-model_id_name=Electricity
-gpu_id=5
+model_id_name=ExchangeRate
+gpu_id=2
 
 seq_len=336
-for pred_len in 1240
+for pred_len in 96 192 336 720
 do
   python -u run.py \
     --task_name long_term_forecast \
@@ -22,7 +22,7 @@ do
     --pred_len $pred_len \
     --period_len 4 \
     --model_type 'linear' \
-    --enc_in 321 \
+    --enc_in 8 \
     --train_epochs 10 \
     --patience 5 \
     --itr 1 --batch_size 64 \

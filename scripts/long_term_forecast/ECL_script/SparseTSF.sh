@@ -4,7 +4,7 @@ root_path_name='/home/home_new/qsmx/pycodes/BasicTS/datasets/raw_data/Electricit
 data_path_name='Electricity.csv'
 data_name='custom'
 model_id_name=Electricity
-gpu_id=2
+gpu_id=6
 
 seq_len=336
 for pred_len in 1240
@@ -23,7 +23,7 @@ do
     --period_len 4 \
     --model_type 'linear' \
     --enc_in 321 \
-    --train_epochs 5 \
+    --train_epochs 10 \
     --itr 2 --batch_size 16 \
-    --gpu 2 
+    --gpu 6 
 done
